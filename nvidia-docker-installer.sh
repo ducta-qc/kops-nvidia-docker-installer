@@ -14,6 +14,7 @@
 
 #!/bin/sh
 
+set -e
 
 # p2.xlarge
 # 00f0	10de102d	4b	        84000000	      100000000c	               0	        8200000c	               0	               0	               0	         1000000	       400000000	               0	         2000000	               0	               0	               0	nvidia
@@ -63,10 +64,9 @@ add-apt-repository \
 
 # Get docker-ce, nvidia-docker2
 apt-get update
-sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
+sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service || true
 apt-get install -y docker-ce
-systemctl daemon-reload
-pkill -SIGHUP dockerd
+sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
 apt-get install -y nvidia-docker2
 
 # apt-get install -y nvidia-docker2
