@@ -65,9 +65,9 @@ add-apt-repository \
 apt-get update
 sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
 apt-get install -y docker-ce
+sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
 apt-get install -y nvidia-docker2
 
-systemctl daemon-reload
 # apt-get install -y nvidia-docker2
 tee /etc/docker/daemon.json <<EOF
 {
