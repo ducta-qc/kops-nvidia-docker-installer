@@ -38,18 +38,10 @@ apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-prop
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/debian8/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
 
-# Add docker-ce repo 
-curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-apt-key fingerprint 0EBFCD88
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-
 # Get docker-ce, nvidia-docker2
 apt-get update
-sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
-apt-get install -y docker-ce 
 apt-get install -y nvidia-docker2
 
-systemctl daemon-reload
 apt-get install -y nvidia-docker2
 tee /etc/docker/daemon.json <<EOF
 {
@@ -63,3 +55,4 @@ tee /etc/docker/daemon.json <<EOF
 }
 EOF
 pkill -SIGHUP dockerd
+systemctl restart kubelet
