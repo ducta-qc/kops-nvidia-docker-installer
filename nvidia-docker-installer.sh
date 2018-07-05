@@ -65,20 +65,21 @@ add-apt-repository \
 apt-get update
 sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
 apt-get install -y docker-ce
-# apt-get install -y nvidia-docker2=2.0.3+docker17.03.2-1 nvidia-container-runtime=2.0.0+docker17.03.2-1
+systemctl daemon-reload
+pkill -SIGHUP dockerd
+apt-get install -y nvidia-docker2
 
-# systemctl daemon-reload
 # apt-get install -y nvidia-docker2
-# tee /etc/docker/daemon.json <<EOF
-# {
-#     "default-runtime": "nvidia",
-#     "runtimes": {
-#         "nvidia": {
-#             "path": "/usr/bin/nvidia-container-runtime",
-#             "runtimeArgs": []
-#         }
-#     }
-# }
-# EOF
-# pkill -SIGHUP dockerd
-# systemctl restart kubelet
+tee /etc/docker/daemon.json <<EOF
+{
+    "default-runtime": "nvidia",
+    "runtimes": {
+        "nvidia": {
+            "path": "/usr/bin/nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    }
+}
+EOF
+pkill -SIGHUP dockerd
+systemctl restart kubelet
