@@ -42,7 +42,6 @@ curl -s -L https://nvidia.github.io/nvidia-docker/debian8/nvidia-docker.list | t
 apt-get update
 apt-get install -y nvidia-docker2
 
-apt-get install -y nvidia-docker2
 tee /etc/docker/daemon.json <<EOF
 {
     "default-runtime": "nvidia",
