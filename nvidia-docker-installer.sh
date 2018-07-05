@@ -22,14 +22,6 @@ nvidia-smi -ac 2505,875
 
 /sbin/modprobe nvidia-uvm
 
-if [ "$?" -eq 0 ]; then
-  # Find out the major device number used by the nvidia-uvm driver
-  D=`grep nvidia-uvm /proc/devices | awk '{print $1}'`
-  mknod -m 666 /dev/nvidia-uvm c $D 0
-else
-  echo "Unable to modprobe nvidia-uvm"
-fi
-
 # Install docker-ce, nvidia-docker2
 apt-get update
 apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
