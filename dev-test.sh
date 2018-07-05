@@ -36,32 +36,3 @@ nvidia-smi -ac 2505,875
 nvidia-smi
 nvidia-modprobe -c0 -u
 
-# Install docker-ce, nvidia-docker2
-# apt-get update
-# apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
-
-# Add nvidia docker repo
-curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
-
-# Get docker-ce, nvidia-docker2
-apt-get update
-# sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
-apt-get install -y nvidia-docker2=2.0.3+docker17.03.2-1 nvidia-container-runtime=2.0.0+docker17.03.2-1
-
-# systemctl daemon-reload
-apt-get install -y nvidia-docker2
-tee /etc/docker/daemon.json <<EOF
-{
-    "default-runtime": "nvidia",
-    "runtimes": {
-        "nvidia": {
-            "path": "/usr/bin/nvidia-container-runtime",
-            "runtimeArgs": []
-        }
-    }
-}
-EOF
-# pkill -SIGHUP dockerd
-# systemctl restart kubelet
