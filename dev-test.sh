@@ -64,7 +64,7 @@ add-apt-repository \
 # Get docker-ce, nvidia-docker2
 apt-get update
 sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
-apt-get install -y docker-ce
+apt-get install -y docker-ce=18.03.0~ce-0~debian
 sed -i 's/^ExecStart=\/usr\/bin\/dockerd -H fd:\/\/.*$/ExecStart=\/usr\/bin\/dockerd -H fd:\/\/ -s=overlay2/' /lib/systemd/system/docker.service
 apt-get install -y nvidia-docker2
 
