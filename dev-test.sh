@@ -21,11 +21,11 @@
 
 apt-get update
 apt-get install --yes gcc
-
-cd /tmp
-wget https://s3.amazonaws.com/chappiebot/packages/cuda/NVIDIA-Linux-x86_64-390.12.run
-chmod +x NVIDIA-Linux-x86_64-390.12.run
-/tmp/NVIDIA-Linux-x86_64-390.12.run --accept-license --ui=none --silent --no-drm --no-install-compat32-libs
+apt-get install --yes --no-install-recommends nvidia-384 libcuda1-384
+# cd /tmp
+# wget https://s3.amazonaws.com/chappiebot/packages/cuda/NVIDIA-Linux-x86_64-390.12.run
+# chmod +x NVIDIA-Linux-x86_64-390.12.run
+# /tmp/NVIDIA-Linux-x86_64-390.12.run --accept-license --ui=none --silent --no-drm --no-install-compat32-libs
 
 nvidia-smi -pm 1
 nvidia-smi -acp 0
